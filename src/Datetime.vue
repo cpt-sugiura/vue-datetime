@@ -134,6 +134,15 @@ export default {
     },
     title: {
       type: String
+    },
+    defaultHour: {
+      type: Number
+    },
+    defaultMinute: {
+      type: Number
+    },
+    defaultSeconds: {
+      type: Number
     }
   },
 
@@ -218,7 +227,12 @@ export default {
       this.close()
     },
     newPopupDatetime () {
-      let datetime = DateTime.utc().setZone(this.zone).set({ seconds: 0, milliseconds: 0 })
+      const defaultTime = { seconds: 0, milliseconds: 0 };
+      (this.defaultHour != null) && (defaultTime.hour = this.defaultHour);
+      (this.defaultMinute != null) && (defaultTime.minute = this.defaultMinute);
+      (this.defaultSeconds != null) && (defaultTime.seconds = this.defaultSecond)
+      let datetime = DateTime.utc().setZone(this.zone).set(defaultTime)
+      console.dir('hi')
 
       if (this.popupMinDatetime && datetime < this.popupMinDatetime) {
         datetime = this.popupMinDatetime.set({ seconds: 0, milliseconds: 0 })
